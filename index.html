@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student-Teacher Portal</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .portal-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .portal-header {
+            background: #4e73df;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .form-container {
+            padding: 30px;
+        }
+        .nav-tabs {
+            border-bottom: 2px solid #dee2e6;
+        }
+        .nav-tabs .nav-link {
+            color: #495057;
+            font-weight: 500;
+            border: none;
+            padding: 12px 20px;
+        }
+        .nav-tabs .nav-link.active {
+            color: #4e73df;
+            background: transparent;
+            border-bottom: 2px solid #4e73df;
+        }
+        .form-section {
+            display: none;
+            padding-top: 20px;
+        }
+        .form-section.active {
+            display: block;
+        }
+        .btn-primary {
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+    </style>
+</head>
+<body>
+    <div class="portal-container">
+        <div class="portal-header">
+            <h2>Student-Teacher Assignment Portal</h2>
+        </div>
+        
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-target="register">Student Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-target="student-login">Student Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-target="teacher-login">Teacher Login</a>
+            </li>
+        </ul>
+        
+        <div class="form-container">
+            <!-- Student Registration -->
+            <div id="register" class="form-section active">
+                <h4>Student Registration</h4>
+                <form id="registerForm">
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Class</label>
+                        <select name="class" class="form-select" required>
+                            <option value="">Select Class</option>
+                            <option value="6th">6th Grade</option>
+                            <option value="7th">7th Grade</option>
+                            <option value="8th">8th Grade</option>
+                            <option value="9th">9th Grade</option>
+                            <option value="10th">10th Grade</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+            
+            <!-- Student Login -->
+            <div id="student-login" class="form-section">
+                <h4>Student Login</h4>
+                <form id="studentLoginForm">
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+            
+            <!-- Teacher Login -->
+            <div id="teacher-login" class="form-section">
+                <h4>Teacher Login</h4>
+                <form id="teacherLoginForm">
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Tab navigation
+        document.querySelectorAll('.nav-link').forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = this.getAttribute('data-target');
+                
+                // Update active tab
+                document.querySelectorAll('.nav-link').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show corresponding form
+                document.querySelectorAll('.form-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(target).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
