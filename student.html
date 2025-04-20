@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .dashboard-header {
+            background: #4e73df;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .assignment-card {
+            background: white;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        .btn-light {
+            background-color: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2>Student Dashboard</h2>
+                    <p class="mb-0" id="welcomeMessage">Welcome back!</p>
+                </div>
+                <button id="logoutBtn" class="btn btn-light">Logout</button>
+            </div>
+        </div>
+        
+        <h4 class="mb-3">Your Assignments</h4>
+        <div id="assignmentsContainer"></div>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Check if student is logged in and approved
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if(!currentUser || currentUser.role !== 'student' || !currentUser.approved) {
+            window.location.href = '../index.html';
+        }
+
+        // Display welcome message
+        document.getElementById('welcomeMessage').textContent = `Welcome, ${currentUser.name} (${currentUser.class})`;
+
+        // Load assignments
+        function loadAssignments() {
+            const assignments = JSON.parse(localStorage.getItem('assignments')) || [];
+            const myAssignments = assignments.filter(ass => 
+                ass.assignedClasses.includes(currentUser.class)
+            );
+            
+            let html = '';
+            if(myAssignments.length === 0) {
+                html = '<p>No assignments for your class yet.</p>';
+            } else {
+                html = myAssignments.map(ass => `
+                    <div class="assignment-card">
+                        <h5>${ass.title}</h5>
+                        <p>${ass.description}</p>
+                        <small class="text-muted">Assigned to: ${ass.assignedClasses.join(', ')}</small>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('assignmentsContainer').innerHTML = html;
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('currentUser');
+            window.location.href = '../index.html';
+        });
+
+        // Initial load
+        loadAssignments();
+    </script>
+</body>
+</html>
